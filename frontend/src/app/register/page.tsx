@@ -96,7 +96,7 @@ export default function RegisterPage() {
                 <div className="hidden lg:flex w-full lg:w-1/2 relative bg-slate-300 overflow-hidden">
                     <img
                         className="w-full h-full object-cover"
-                        src="https://magnoliahome.co.in/wp-content/uploads/2021/08/Jasper-Arm-Chair-1.1-1.jpg"
+                        src="https://assets.unileversolutions.com/v1/57963450.jpg?im=AspectCrop=(937,528);Resize=(937,528)"
                         alt="Register illustration"
                     />
                 </div>

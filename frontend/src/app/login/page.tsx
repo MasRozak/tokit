@@ -106,7 +106,7 @@ export default function LoginLayout() {
                 <div className="hidden lg:block lg:w-1/2 relative bg-slate-300 overflow-hidden">
                     <img
                         className="w-full h-full object-cover"
-                        src="https://magnoliahome.co.in/wp-content/uploads/2021/08/Jasper-Arm-Chair-1.1-1.jpg"
+                        src="https://d3q27bh1u24u2o.cloudfront.net/news/Levilling_Up.png"
                         alt="Chair"
                     />
                 </div>

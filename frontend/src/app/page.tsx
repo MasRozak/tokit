@@ -17,9 +17,9 @@ interface bestSellingProduct {
 }
 
 const images = [
-  { src: 'https://images.unsplash.com/photo-1556656793-08538906a9f8?w=800&h=400&fit=crop', alt: 'First Slide' },
-  { src: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800&h=400&fit=crop', alt: 'Second Slide' },
-  { src: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800&h=400&fit=crop', alt: 'Third Slide' },
+  { src: 'https://www.bechtle.com/dam/jcr:3664adb4-bc64-46a5-b0f8-1a48852e1150/cw04_mainbanner_samsung-eu.jpg', alt: 'First Slide' },
+  { src: 'https://cdn.shopify.com/s/files/1/0537/6563/6266/files/digital-walker_1000XM6-1920x614_HOMEPAGE_BANNER.jpg?v=1747300079', alt: 'Second Slide' },
+  { src: 'https://thetechrevolutionist.com/wp-content/uploads/2024/09/AMD-Ryzen-Banner.jpg', alt: 'Third Slide' },
 ];
 
 async function getBestSellingProducts(): Promise<bestSellingProduct[]> {
