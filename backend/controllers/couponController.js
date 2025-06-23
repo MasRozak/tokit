@@ -141,18 +141,23 @@ const getAllCoupons = async (req, res) => {
 
 const getCouponById = async (req, res) => {
   try {
-    const { id_kupon } = req.params;
+    const { id } = req.params; // Ubah dari id_kupon ke id sesuai route
+
+    console.log('🔍 Getting coupon by ID:', id);
 
     const [couponRows] = await pool.query(
       'SELECT * FROM coupons WHERE id_kupon = ?',
-      [id_kupon]
+      [id]
     );
 
     if (couponRows.length === 0) {
+      console.log('❌ Coupon not found for ID:', id);
       return res.status(404).json({
         error: 'Kupon tidak ditemukan'
       });
     }
+
+    console.log('✅ Coupon found:', couponRows[0]);
 
     res.status(200).json({
       message: 'Berhasil mengambil data kupon',
