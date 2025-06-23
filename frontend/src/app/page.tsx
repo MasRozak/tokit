@@ -25,15 +25,13 @@ const images = [
 async function getBestSellingProducts(): Promise<bestSellingProduct[]> {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'}/api/products/bs`, {
-      next: { revalidate: 3600 }, // Revalidate every hour
+      cache: 'no-store', // Temporary: No cache for immediate updates
     });
 
     if (!res.ok) {
       console.error('Failed to fetch best selling products:', res.status);
       return [];
-    }
-
-    const data = await res.json();
+    }    const data = await res.json();
 
     if (Array.isArray(data)) {
       return data.slice(0, 5);
@@ -48,9 +46,8 @@ async function getBestSellingProducts(): Promise<bestSellingProduct[]> {
 }
 
 async function getProducts(): Promise<Product[]> {
-  try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'}/api/products`, {
-      next: { revalidate: 3600 }, // Revalidate every hour
+  try {    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'}/api/products`, {
+      cache: 'no-store', // Temporary: No cache for immediate updates
     });
 
     if (!res.ok) {
