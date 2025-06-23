@@ -43,10 +43,13 @@ export async function GET() {
     return NextResponse.json({ 
       message: 'Homepage cache cleared successfully',
       timestamp: new Date().toISOString()
-    });
-  } catch (error) {
+    });  } catch (error) {
+    console.error('GET revalidation error:', error);
     return NextResponse.json(
-      { message: 'Error clearing cache' },
+      { 
+        message: 'Error clearing cache', 
+        error: error instanceof Error ? error.message : 'Unknown error' 
+      },
       { status: 500 }
     );
   }
