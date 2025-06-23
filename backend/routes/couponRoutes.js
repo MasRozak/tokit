@@ -4,16 +4,16 @@ const { createCoupon, deleteCoupon, getAllCoupons, getCouponById, updateCoupon, 
 const authMiddleware = require('../middlewares/auth');
 const adminMiddleware = require('../middlewares/admin');
 
-router.get('/coupon', getAllCoupons);
+router.get('/', getAllCoupons);
 
-router.get('/coupon/:id', getCouponById);
+router.get('/:id', getCouponById);
 
-router.post('/coupon',authMiddleware, adminMiddleware, createCoupon);
+router.post('/',authMiddleware, adminMiddleware, createCoupon);
 
-router.put('/coupon/:id',authMiddleware, adminMiddleware, updateCoupon);
+router.put('/:id',authMiddleware, adminMiddleware, updateCoupon);
 
-router.delete('/coupon/:id',authMiddleware, adminMiddleware, deleteCoupon);
+router.delete('/:id',authMiddleware, adminMiddleware, deleteCoupon);
 
-router.post('/coupon/validate', authMiddleware, validateCoupon);
+router.post('/validate', authMiddleware, validateCoupon);
 
 module.exports = router;
