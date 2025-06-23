@@ -41,8 +41,9 @@ export default function WishlistPage() {
     if (!token) {
       setErrorWishlist('Token tidak ditemukan.');
       setLoadingWishlist(false);
+      
     } else {
-      fetch('http://localhost:8080/api/wishlist', {
+      fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'}/api/wishlist`, {
         headers: { 'Authorization': `Bearer ${token}` }
       })
         .then(res => res.json())
@@ -52,7 +53,7 @@ export default function WishlistPage() {
             const products = await Promise.all(
               data.wishlist.produk.map(async (id: string) => {
                 try {
-                  const res = await fetch(`http://localhost:8080/api/products/${id}`);
+                  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'}/api/products/${id}`);
                   if (!res.ok) throw new Error('Gagal fetch produk');
                   const p = await res.json();                  return {
                     id: p.id_produk || p.id,
@@ -90,7 +91,7 @@ export default function WishlistPage() {
       setErrorLastView('Token tidak ditemukan.');
       setLoadingLastView(false);
     } else {
-      fetch(`http://localhost:8080/api/lastview`, {
+     fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'}/api/lastview`, {
         headers: { 'Authorization': `Bearer ${token}` },
         method: 'GET'
       })
@@ -109,12 +110,13 @@ export default function WishlistPage() {
                 let real_review_count = 0;
 
                 try {
-                  const reviewRes = await fetch(`http://localhost:8080/api/reviews/${p.id_produk || p.id}`);
+                  const reviewRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'}/api/reviews/${p.id_produk || p.id}`);
                   if (reviewRes.ok) {
                     const reviewData = await reviewRes.json();
                     console.log(`Last view reviews for ${p.id_produk}:`, reviewData);
 
-                    let reviews = [];                    if (reviewData.reviews && reviewData.reviews.length > 0 && reviewData.reviews[0].reviews) {
+                    let reviews = [];
+                    if (reviewData.reviews && reviewData.reviews.length > 0 && reviewData.reviews[0].reviews) {
                       reviews = reviewData.reviews[0].reviews;
                     }
 

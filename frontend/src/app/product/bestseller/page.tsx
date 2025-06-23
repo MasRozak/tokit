@@ -34,7 +34,7 @@ function ProductContent() {
           data.map(async (p: { id_produk: number; nama_produk: string; image: string; harga: number; deskripsi: string; avg_rating: number; total_review: number; kategori?: string; total_quantity?: number }) => {
             try {
 
-              const reviewRes = await fetch(`http://localhost:8080/api/reviews/${p.id_produk}`);
+              const reviewRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'}/api/reviews/${p.id_produk}`);
               let real_rating = 0;
               let real_review_count = 0;
                 if (reviewRes.ok) {

@@ -112,7 +112,7 @@ export default function ExploreProducts({ products }: ExploreProductsProps) {
         const productsWithReviewData = await Promise.all(
           validProducts.map(async (product) => {
             try {
-              const response = await fetch(`http://localhost:8080/api/reviews/${product.id_produk}`);
+              const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'}/api/reviews/${product.id_produk}`);
               if (response.ok) {
                 const data = await response.json();
                 console.log(`Raw API response for product ${product.id_produk}:`, data);

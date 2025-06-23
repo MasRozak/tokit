@@ -157,6 +157,8 @@ export default function ProductForm({ product, mode, token }: ProductFormProps) 
                 <option value="audio">Audio</option>
                 <option value="camera">Camera</option>
                 <option value="computer">Computer</option>
+                <option value="watch">Smart Watch</option>
+
                 </select>
             </div>
 
