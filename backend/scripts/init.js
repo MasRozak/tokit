@@ -33,9 +33,17 @@ const dbConfig = require('../config/config')[environmentConfig];
 const MONGO_HOST = process.env.MONGO_HOST || '127.0.0.1';
 const MONGO_PORT = process.env.MONGO_PORT || '27017';
 const DB_NAME = dbConfig.database || process.env.DB_NAME || 'sbdjaya';
-const mongoUri = `mongodb://${MONGO_HOST}:${MONGO_PORT}/${DB_NAME}`;
 
-console.log('🔍 MongoDB URI:', mongoUri);
+let mongoUri;
+if (process.env.MONGODB_URI) {
+  // Use cloud MongoDB URI if provided (for production)
+  mongoUri = process.env.MONGODB_URI;
+  console.log('🔍 Using cloud MongoDB URI');
+} else {
+  // Use local MongoDB for development
+  mongoUri = `mongodb://${MONGO_HOST}:${MONGO_PORT}/${DB_NAME}`;
+  console.log('🔍 Using local MongoDB URI:', mongoUri);
+}
 
 const isDrop = process.env.npm_lifecycle_event === 'drop';
 
@@ -220,18 +228,28 @@ async function init() {
     await seedReviews(mongoDb);
 
     await mongoose.disconnect();
-    console.log('✅ MongoDB initialization and seeding completed.');} catch (error) {
+    console.log('✅ MongoDB initialization and seeding completed.');  } catch (error) {
     console.warn('⚠️  MongoDB connection failed:', error.message);
-    console.warn('⚠️  Skipping MongoDB initialization. Please ensure MongoDB is running on localhost:27017');
-    console.warn('💡 To start MongoDB service:');
-    console.warn('   - Windows: net start MongoDB (as Administrator)');
-    console.warn('   - Or install MongoDB Community Server if not installed');
-    console.warn('   - Or use MongoDB Atlas (cloud) by updating MONGO_HOST in .env');
-  }
-  console.log('🎉 Initialization and seeding completed!');
+    if (isProduction) {
+      console.warn('⚠️  Skipping MongoDB initialization in production.');
+      console.warn('💡 To use MongoDB in production:');
+      console.warn('   1. Set MONGODB_URI environment variable to your cloud MongoDB URI');
+      console.warn('   2. Or add MongoDB service in Railway dashboard');
+    } else {
+      console.warn('⚠️  Skipping MongoDB initialization. Please ensure MongoDB is running on localhost:27017');
+      console.warn('💡 To start MongoDB service:');
+      console.warn('   - Windows: net start MongoDB (as Administrator)');
+      console.warn('   - Or install MongoDB Community Server if not installed');
+      console.warn('   - Or use MongoDB Atlas (cloud) by updating MONGODB_URI in .env');
+    }
+  }  console.log('🎉 Initialization completed!');
   console.log('📋 Summary:');
-  console.log('   ✅ MySQL database migrated and seeded');
-  console.log('   ✅ MongoDB collections created and seeded');
+  console.log('   ✅ MySQL database migrated and ready');
+  if (isProduction) {
+    console.log('   ⚠️  MongoDB skipped (set MONGODB_URI for cloud MongoDB)');
+  } else {
+    console.log('   ⚠️  MongoDB skipped (ensure local MongoDB is running)');
+  }
   console.log('🚀 Ready to start server with: npm start');
 }
 
