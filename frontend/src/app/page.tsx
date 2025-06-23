@@ -25,7 +25,7 @@ const images = [
 async function getBestSellingProducts(): Promise<bestSellingProduct[]> {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'}/api/products/bs`, {
-      cache: 'no-store',
+      next: { revalidate: 3600 }, // Revalidate every hour
     });
 
     if (!res.ok) {
@@ -50,7 +50,7 @@ async function getBestSellingProducts(): Promise<bestSellingProduct[]> {
 async function getProducts(): Promise<Product[]> {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'}/api/products`, {
-      cache: 'no-store',
+      next: { revalidate: 3600 }, // Revalidate every hour
     });
 
     if (!res.ok) {

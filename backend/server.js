@@ -24,7 +24,19 @@ const couponRoutes = require("./routes/couponRoutes");
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-app.use(cors());
+// Configure CORS for production and development
+const corsOptions = {
+  origin: [
+    'http://localhost:3000',
+    'https://tokit-frontend.vercel.app',
+    'https://*.vercel.app',
+    /\.vercel\.app$/
+  ],
+  credentials: true,
+  optionsSuccessStatus: 200
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 
 app.get("/", (req, res) => res.send("🛒 Backend running with Mongo & MySQL"));
