@@ -44,6 +44,7 @@ const CheckoutDetails: React.FC<Props> = ({ items, onPlaceOrder, isLoading = fal
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'}/api/coupons/validate`, {
         method: 'POST',
         headers: {
+          'Authorization': `Bearer ${sessionStorage.getItem('jwtToken')}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ kode_kupon: couponCode }),
