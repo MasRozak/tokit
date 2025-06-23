@@ -141,11 +141,11 @@ const getAllCoupons = async (req, res) => {
 
 const getCouponById = async (req, res) => {
   try {
-    const { kode_kupon } = req.params;
+    const { id_kupon } = req.params;
 
     const [couponRows] = await pool.query(
       'SELECT * FROM coupons WHERE id_kupon = ?',
-      [kode_kupon]
+      [id_kupon]
     );
 
     if (couponRows.length === 0) {
