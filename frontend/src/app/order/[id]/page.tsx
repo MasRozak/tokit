@@ -282,11 +282,6 @@ export default function OrderDetailPage({ params }: OrderDetailPageProps) {
                       <p className="text-sm text-gray-600 mb-1">Tracking Number</p>
                       <p className="font-mono text-lg font-medium text-gray-900">{order.tracking_number}</p>
                     </div>
-                    <div className="text-right">
-                      <button className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors text-sm">
-                        Track Package
-                      </button>
-                    </div>
                   </div>
                 </div>
               </div>            )}
@@ -354,9 +349,17 @@ export default function OrderDetailPage({ params }: OrderDetailPageProps) {
 
               <div className="mt-8 space-y-3">
                 {order.status_pengiriman === 'delivered' && (
-                  <button className="w-full px-4 py-3 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors font-medium">
-                    Leave Review
-                  </button>
+                  <div className="space-y-2">
+                  {order.items.map((item) => (
+                    <Link
+                    key={item.product_id}
+                    href={`/product/${item.product_id}`}
+                    className="w-full px-4 py-3 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors font-medium block text-center"
+                    >
+                    Review {item.product_name}
+                    </Link>
+                  ))}
+                  </div>
                 )}
                 
                 {(order.status_pembayaran === 'pending' || order.status_pengiriman === 'processing') && (
@@ -364,9 +367,6 @@ export default function OrderDetailPage({ params }: OrderDetailPageProps) {
                     Cancel Order
                   </button>
                 )}
-                  <button className="w-full px-4 py-3 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 transition-colors font-medium">
-                  Contact Support
-                </button>
               </div>
             </div>
           </div>
