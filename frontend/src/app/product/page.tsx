@@ -11,8 +11,21 @@ import toast from "react-hot-toast";
 
 function ProductContent() {
   const searchParams = useSearchParams();
-  const selectedCategory = searchParams.get('category');
-  const searchQuery = searchParams.get('search');  const [products, setProducts] = useState<any[]>([]);
+  const selectedCategory = searchParams.get('category');  const searchQuery = searchParams.get('search');
+    const [products, setProducts] = useState<Array<{
+    id: number;
+    id_produk?: number;
+    name: string;
+    price: number;
+    image: string;
+    description?: string;
+    rating?: number;
+    reviews?: number;
+    avg_rating?: number;
+    total_review?: number;
+    category?: string;
+    quantity?: number;
+  }>>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [addingToCart, setAddingToCart] = useState<string | null>(null);
@@ -36,8 +49,7 @@ function ProductContent() {
         if (!res.ok) throw new Error('Gagal fetch produk');
         const data = await res.json();
 
-        const mapped = Array.isArray(data) ? await Promise.all(
-          data.map(async (p: any) => {
+        const mapped = Array.isArray(data) ? await Promise.all(          data.map(async (p: { id_produk: number; nama_produk: string; image: string; harga: number; deskripsi?: string; avg_rating?: number; total_review?: number; kategori?: string; total_quantity?: number }) => {
             try {
 
               const reviewRes = await fetch(`http://localhost:8080/api/reviews/${p.id_produk}`);
@@ -52,7 +64,7 @@ function ProductContent() {
                 real_review_count = reviews.length;
 
                 if (reviews.length > 0) {
-                  const totalRating = reviews.reduce((sum: number, review: any) => sum + (review.rate || 0), 0);
+                  const totalRating = reviews.reduce((sum: number, review: { rate?: number }) => sum + (review.rate || 0), 0);
                   real_rating = totalRating / reviews.length;
                 }
               }
@@ -77,11 +89,10 @@ function ProductContent() {
               };
             }
           })
-        ) : [];
-        setProducts(mapped);
+        ) : [];        setProducts(mapped);
         setLoading(false);
-      } catch (error) {
-        setError('Gagal mengambil produk');
+      } catch (err) {
+        console.error('Gagal mengambil produk:', err);
         setLoading(false);
       }
     };
@@ -200,11 +211,10 @@ function ProductContent() {
                     {}
                   <div className="absolute top-3 right-3 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                     <button
-                      className="w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-md hover:bg-gray-50 disabled:opacity-50"
-                      onClick={(e) => handleAddToWishlist(product.id_produk || product.id, e)}
-                      disabled={addingToWishlist === (product.id_produk || product.id)}
+                      className="w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-md hover:bg-gray-50 disabled:opacity-50"                      onClick={(e) => handleAddToWishlist((product.id_produk || product.id).toString(), e)}
+                      disabled={addingToWishlist === (product.id_produk || product.id).toString()}
                     >
-                      {addingToWishlist === (product.id_produk || product.id) ? (
+                      {addingToWishlist === (product.id_produk || product.id).toString() ? (
                         <div className="w-4 h-4 border-2 border-gray-600 border-t-transparent rounded-full animate-spin"></div>
                       ) : (
                         <Heart className="w-4 h-4 text-gray-600" />
@@ -215,11 +225,10 @@ function ProductContent() {
                   {}
                   <div className="absolute bottom-0 left-0 w-full opacity-0 translate-y-4 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 px-4 pb-4">
                     <button
-                      className="w-full bg-black text-white py-2 rounded hover:bg-gray-800 transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
-                      onClick={(e) => handleAddToCart(product.id_produk || product.id, e)}
-                      disabled={addingToCart === (product.id_produk || product.id)}
+                      className="w-full bg-black text-white py-2 rounded hover:bg-gray-800 transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"                      onClick={(e) => handleAddToCart((product.id_produk || product.id).toString(), e)}
+                      disabled={addingToCart === (product.id_produk || product.id).toString()}
                     >
-                      {addingToCart === (product.id_produk || product.id) ? (
+                      {addingToCart === (product.id_produk || product.id).toString() ? (
                         <>
                           <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
                           Adding...

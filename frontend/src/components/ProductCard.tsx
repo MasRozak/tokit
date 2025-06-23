@@ -1,5 +1,4 @@
 ﻿
-import Image from 'next/image'
 import { FiEdit2, FiTrash2 } from 'react-icons/fi'
 import { Product } from '../types/product'
 

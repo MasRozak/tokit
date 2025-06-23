@@ -1,7 +1,6 @@
 ﻿'use client';
 
 import { ShoppingCart, Trash2, Heart } from "lucide-react";
-import { useSearchParams } from 'next/navigation';
 import StarRating from "@/components/StarRating";
 import RequireAuth from "@/components/RequireAuth";
 import React, { useEffect, useState } from "react";
@@ -28,18 +27,14 @@ export default function WishlistPage() {
   const [errorLastView, setErrorLastView] = useState<string | null>(null);
   const [addingToWishlist, setAddingToWishlist] = useState<number | null>(null);
   const [addingToCart, setAddingToCart] = useState<number | null>(null);
-
-  useEffect(() => {
-
-    const userStr = sessionStorage.getItem('user');
-    let id_user = '';
-    let token = sessionStorage.getItem('jwtToken') || '';
+  useEffect(() => {    const userStr = sessionStorage.getItem('user');
+    const token = sessionStorage.getItem('jwtToken') || '';
     if (userStr) {
       try {
         const userObj = JSON.parse(userStr);
-        id_user = userObj.id || userObj.id_user || '';
-      } catch (e) {
-        id_user = '';
+        console.log('User ID:', userObj.id || userObj.id_user || '');
+      } catch {
+        console.log('User ID parsing failed');
       }
     }
 
@@ -72,9 +67,7 @@ export default function WishlistPage() {
                 }              })
             );
             setWishlist(products);
-          } else if (Array.isArray(data.wishlist?.produk)) {
-
-            const mapped = data.wishlist.produk.map((p: any) => ({
+          } else if (Array.isArray(data.wishlist?.produk)) {            const mapped = data.wishlist.produk.map((p: { id_produk?: number; id?: number; nama_produk?: string; name?: string; harga?: number; price?: number; image: string; avg_rating?: string; rating?: string; total_review?: number; reviews?: number }) => ({
               id: p.id_produk || p.id,
               name: p.nama_produk || p.name,
               price: p.harga || p.price,
@@ -110,10 +103,8 @@ export default function WishlistPage() {
         .then(async (data) => {
           console.log('Last view response:', data);
 
-          if (data.rows && Array.isArray(data.rows)) {
-
-            const productsWithReviews = await Promise.all(
-              data.rows.map(async (p: any) => {
+          if (data.rows && Array.isArray(data.rows)) {            const productsWithReviews = await Promise.all(
+              data.rows.map(async (p: { id_produk?: number; id?: number; nama_produk?: string; name?: string; harga?: number; price?: number; image: string }) => {
                 let real_rating = 0;
                 let real_review_count = 0;
 
@@ -129,7 +120,7 @@ export default function WishlistPage() {
 
                     real_review_count = reviews.length;
                     if (reviews.length > 0) {
-                      const totalRating = reviews.reduce((sum: number, review: any) => sum + (review.rate || 0), 0);
+                      const totalRating = reviews.reduce((sum: number, review: { rate?: number }) => sum + (review.rate || 0), 0);
                       real_rating = totalRating / reviews.length;
                     }
                   }
@@ -192,51 +183,9 @@ export default function WishlistPage() {
         toast.error(errorData.message || 'Failed to add product to wishlist');
       }
     } catch (error) {
-      console.error('Error adding to wishlist:', error);
-      toast.error('Failed to add product to wishlist');
+      console.error('Error adding to wishlist:', error);      toast.error('Failed to add product to wishlist');
     } finally {
       setAddingToWishlist(null);
-    }
-  };
-
-  const handleAddToCart = async (productId: number, e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-
-    const token = sessionStorage.getItem('jwtToken');
-    if (!token) {
-      toast.error('Please login to add items to cart');
-      return;
-    }
-
-    setAddingToCart(productId);
-
-    try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'}/api/cart/add`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({
-          product_id: productId.toString(),
-          qty: 1
-        })
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        toast.success('Product added to cart successfully!');
-        console.log('Added to cart:', data);
-      } else {
-        const errorData = await response.json();
-        toast.error(errorData.message || 'Failed to add product to cart');
-      }
-    } catch (error) {
-      console.error('Error adding to cart:', error);
-      toast.error('Failed to add product to cart');
-    } finally {
-      setAddingToCart(null);
     }
   };
 

@@ -35,12 +35,10 @@ export default function RelatedProductsCarousel({ products }: CarouselProps) {
 
                 let reviews = [];                if (data.reviews && data.reviews.length > 0 && data.reviews[0].reviews) {
                   reviews = data.reviews[0].reviews;
-                }
-
-                let real_rating = 0;
-                let real_review_count = reviews.length;
+                }                let real_rating = 0;
+                const real_review_count = reviews.length;
                 if (reviews.length > 0) {
-                  const totalRating = reviews.reduce((sum: number, review: any) => sum + (review.rate || 0), 0);
+                  const totalRating = reviews.reduce((sum: number, review: { rate?: number }) => sum + (review.rate || 0), 0);
                   real_rating = totalRating / reviews.length;
                 }
 

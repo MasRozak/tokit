@@ -84,9 +84,7 @@ export default function Checkout() {  const [cartItems, setCartItems] = useState
         }        const data = await response.json();
         console.log('Cart data from backend:', data);
 
-        if (data.produk && Array.isArray(data.produk)) {
-
-          const checkoutItems: CheckoutItem[] = data.produk.map((item: any) => ({
+        if (data.produk && Array.isArray(data.produk)) {          const checkoutItems: CheckoutItem[] = data.produk.map((item: { product_id: string; name?: string; product_name?: string; price?: number; image?: string; qty?: number; stock?: number }) => ({
             id: item.product_id,
             name: item.name || item.product_name || 'Unknown Product',
             price: item.price || 0,

@@ -43,34 +43,35 @@ export default function Cart() {
         return
       }
 
-      try {
-        const apiUrl = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'}/api/cart`
+      try {        const apiUrl = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'}/api/cart`
         console.log('Making request to:', apiUrl)
-
+        
         const response = await fetch(apiUrl, {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json'
           }
         })
-
+        
         console.log('Response status:', response.status)
         console.log('Response ok:', response.ok)
-
+        
         if (!response.ok) {
           const errorText = await response.text()
           console.log('Error response:', errorText)
           throw new Error(`HTTP error! status: ${response.status} - ${errorText}`)
-        }        const data = await response.json()
+        }
+        
+        const data = await response.json()
         console.log('Cart data from backend:', data)
 
-        const cartItems: CartItem[] = (data.produk || []).map((item: any) => ({
+        const cartItems: CartItem[] = (data.produk || []).map((item: { product_id: string; name?: string; price?: string | number; image?: string; qty: number; stock?: string | number }) => ({
           id: item.product_id,
           name: item.name || `Product ${item.product_id}`,
-          price: parseFloat(item.price || 0),
-          quantity: parseInt(item.qty || 1),
+          price: parseFloat(item.price?.toString() || '0'),
+          quantity: parseInt(item.qty?.toString() || '1'),
           image: item.image || 'https://images.unsplash.com/photo-1551028719-00167b16eac5?w=300&h=300&fit=crop',
-          maxStock: parseInt(item.stock || 999)
+          maxStock: parseInt(item.stock?.toString() || '999')
         }))
 
         setCartItems(cartItems)
@@ -191,13 +192,13 @@ export default function Cart() {
         throw new Error(`HTTP error! status: ${response.status}`)
       }      const data = await response.json()
 
-      const cartItems: CartItem[] = (data.produk || []).map((item: any) => ({
+      const cartItems: CartItem[] = (data.produk || []).map((item: { product_id: string; name?: string; price?: string | number; image?: string; qty: number; stock?: string | number }) => ({
         id: item.product_id,
         name: item.name || `Product ${item.product_id}`,
-        price: parseFloat(item.price || 0),
-        quantity: parseInt(item.qty || 1),
+        price: parseFloat(item.price?.toString() || '0'),
+        quantity: parseInt(item.qty?.toString() || '1'),
         image: item.image || 'https://images.unsplash.com/photo-1551028719-00167b16eac5?w=300&h=300&fit=crop',
-        maxStock: parseInt(item.stock || 999)
+        maxStock: parseInt(item.stock?.toString() || '999')
       }))
 
       setCartItems(cartItems)

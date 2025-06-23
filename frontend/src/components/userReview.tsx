@@ -16,10 +16,8 @@ interface UserReviewProps {
   id_produk: string;
 }
 
-export default function UserReview({ id_produk }: UserReviewProps) {
-  const [reviews, setReviews] = useState<Review[]>([]);
+export default function UserReview({ id_produk }: UserReviewProps) {  const [reviews, setReviews] = useState<Review[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const [showModal, setShowModal] = useState(false);
   const [newRating, setNewRating] = useState(5);
   const [newComment, setNewComment] = useState('');
@@ -42,7 +40,7 @@ export default function UserReview({ id_produk }: UserReviewProps) {
           const reviewDocument = responseData.reviews[0];
 
           if (reviewDocument.reviews && Array.isArray(reviewDocument.reviews)) {
-            parsedReviews = reviewDocument.reviews.map((review: any, index: number) => ({
+            parsedReviews = reviewDocument.reviews.map((review: { username?: string; date: string; rate?: number; comment?: string }, index: number) => ({
               id: index + 1,
               username: review.username || 'Anonymous',
               date: new Date(review.date).toISOString().slice(0, 10),
@@ -55,7 +53,7 @@ export default function UserReview({ id_produk }: UserReviewProps) {
         console.log('Parsed reviews:', parsedReviews);
         setReviews(parsedReviews);      } catch (err) {
         console.error('Error fetching reviews:', err);
-        setError(err instanceof Error ? err.message : 'Failed to fetch reviews');
+        console.error('Error fetching reviews:', err instanceof Error ? err.message : 'Failed to fetch reviews');
         toast.error('Gagal menampilkan review');
 
         setReviews([]);
@@ -93,7 +91,7 @@ export default function UserReview({ id_produk }: UserReviewProps) {
           if (responseData.reviews && Array.isArray(responseData.reviews) && responseData.reviews.length > 0) {
             const reviewDocument = responseData.reviews[0];
               if (reviewDocument.reviews && Array.isArray(reviewDocument.reviews)) {
-              parsedReviews = reviewDocument.reviews.map((review: any, index: number) => ({
+              parsedReviews = reviewDocument.reviews.map((review: { username?: string; date: string; rate?: number; comment?: string }, index: number) => ({
                 id: index + 1,
                 username: review.username || 'Anonymous',
                 date: new Date(review.date).toISOString().slice(0, 10),

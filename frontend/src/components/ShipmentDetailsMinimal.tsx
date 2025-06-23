@@ -17,22 +17,8 @@ interface ShipmentDetail {
 
 const ShipmentDetails = () => {
   const [savedAddresses, setSavedAddresses] = useState<ShipmentDetail[]>([]);
-  const [selectedAddressId, setSelectedAddressId] = useState<string | null>(null);
-  const [showForm, setShowForm] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
-  const [form, setForm] = useState({
-    first_name: '',
-    last_name: '',
-    street_address: '',
-    apartment_floor: '',
-    kota: '',
-    phone_number: '',
-    email_address: '',
-    kode_pos: '',
-    label: ''
-  });
 
   const getAuthToken = () => {
     if (typeof window !== 'undefined') {
@@ -68,10 +54,6 @@ const ShipmentDetails = () => {
         const data = await response.json();
         setSavedAddresses(data.data || []);
 
-        if (data.data && data.data.length > 0) {
-          setSelectedAddressId(data.data[0].id_shipment);
-        }
-
       } catch (error) {
         console.error('Error loading shipment details:', error);
         setError('Failed to load saved addresses');
@@ -99,13 +81,12 @@ const ShipmentDetails = () => {
     <div className="w-full max-w-md px-4 sm:px-10">
       <h2 className="text-xl sm:text-2xl font-semibold mb-6">Shipment Details</h2>
 
-      {}
-      {error && (        <div className="mb-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+      {error && (
+        <div className="mb-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
           <p className="text-blue-600 text-sm">{error}</p>
         </div>
       )}
 
-      {}
       <div className="space-y-4">
         <p>Component loaded successfully!</p>
         <p>Saved addresses: {savedAddresses.length}</p>

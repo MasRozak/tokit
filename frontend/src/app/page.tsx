@@ -4,7 +4,6 @@ import BestSellingProducts from '@/components/BestSellingProduct';
 import DiscoveryProduct from '@/components/DiscoveryProduct';
 import CategorySection from "@/components/Category";
 import { Product } from '@/types/product';
-import toast from 'react-hot-toast';
 
 interface bestSellingProduct {
   id_produk: number;

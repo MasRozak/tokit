@@ -1,7 +1,7 @@
 ﻿
 'use client';
 import React, { useState, useEffect } from 'react';
-import { FiMapPin, FiPhone, FiMail, FiPlus, FiCheck, FiEdit3 } from 'react-icons/fi';
+import { FiMapPin, FiPhone, FiPlus, FiCheck } from 'react-icons/fi';
 
 interface ShipmentDetail {
   id_shipment: string;

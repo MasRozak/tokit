@@ -56,10 +56,9 @@ export default function BestSellingProducts({
                 }
                 console.log(`Extracted reviews for product ${product.id_produk}:`, reviews);
 
-                let real_rating = 0;
-                let real_review_count = reviews.length;
+                let real_rating = 0;                const real_review_count = reviews.length;
                   if (reviews.length > 0) {
-                  const totalRating = reviews.reduce((sum: number, review: any) => sum + (review.rate || 0), 0);
+                  const totalRating = reviews.reduce((sum: number, review: { rate?: number }) => sum + (review.rate || 0), 0);
                   real_rating = totalRating / reviews.length;
                   console.log(`Product ${product.id_produk}: Calculated rating=${real_rating}, count=${real_review_count}`);
                 }

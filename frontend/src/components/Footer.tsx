@@ -1,6 +1,5 @@
 ﻿import Link from 'next/link';
 import Image from 'next/image';
-import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from 'react-icons/fa';
 
 const Footer = () => {
   return (
@@ -75,10 +74,9 @@ const Footer = () => {
                   Wishlist
                 </Link>
               </li>
-              <li>
-                <a href="/order" className="text-gray-300 hover:text-white transition-colors">
+              <li>                <Link href="/order" className="text-gray-300 hover:text-white transition-colors">
                   My Order
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -96,9 +94,8 @@ const Footer = () => {
 
         {}
         <div className="border-t border-gray-700 mt-8 pt-6">
-          <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
-            <p className="text-gray-400 text-sm text-center sm:text-left mx-auto">
-              &copy; 2025 Kelompok 1 "Tokit". All rights reserved.
+          <div className="flex flex-col sm:flex-row justify-between items-center gap-4">            <p className="text-gray-400 text-sm text-center sm:text-left mx-auto">
+              &copy; 2025 Kelompok 1 &quot;Tokit&quot;. All rights reserved.
             </p>
           </div>
         </div>

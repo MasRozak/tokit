@@ -31,7 +31,7 @@ function ProductContent() {
           `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'}/api/products/bs`
         );
         const data = await res.json();        const mapped = await Promise.all(
-          data.map(async (p: any) => {
+          data.map(async (p: { id_produk: number; nama_produk: string; image: string; harga: number; deskripsi: string; avg_rating: number; total_review: number; kategori?: string; total_quantity?: number }) => {
             try {
 
               const reviewRes = await fetch(`http://localhost:8080/api/reviews/${p.id_produk}`);
@@ -46,7 +46,7 @@ function ProductContent() {
                 real_review_count = reviews.length;
 
                 if (reviews.length > 0) {
-                  const totalRating = reviews.reduce((sum: number, review: any) => sum + (review.rate || 0), 0);
+                  const totalRating = reviews.reduce((sum: number, review: { rate?: number }) => sum + (review.rate || 0), 0);
                   real_rating = totalRating / reviews.length;
                 }
               }

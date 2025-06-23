@@ -39,9 +39,8 @@ export default function ProductDetailPage() {
           const allProductsRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'}/api/products`);
           
           if (allProductsRes.ok) {
-            const allProducts = await allProductsRes.json();
-            const relatedProducts = allProducts.filter((p: any) => 
-              p.category === currentProduct.category && p.id_produk !== id_produk
+            const allProducts = await allProductsRes.json();            const relatedProducts = allProducts.filter((p: { category: string; id_produk: number }) => 
+              p.category === currentProduct.category && p.id_produk !== parseInt(id_produk as string)
             );
             setRelated(relatedProducts);
           }

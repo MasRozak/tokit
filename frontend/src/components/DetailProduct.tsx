@@ -58,7 +58,9 @@ export default function DetailProduct({ id_produk }: ProductDetailProps) {
           const data = await response.json();
           if (data.wishlist?.produk) {
             const productIds = Array.isArray(data.wishlist.produk)
-              ? data.wishlist.produk.map((p: any) => p.id_produk || p.id || p)
+              ? data.wishlist.produk.map((p: { id_produk?: number; id?: number } | number) => 
+                  typeof p === 'number' ? p : p.id_produk || p.id || p
+                )
               : [];
             setIsInWishlist(productIds.includes(id_produk) || productIds.includes(parseInt(id_produk)));
           }

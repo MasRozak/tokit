@@ -2,7 +2,6 @@
 import { Heart, ShoppingCart } from "lucide-react";
 import StarRating from "@/components/StarRating";
 import Link from "next/link";
-import { UUID } from "crypto";
 import { Product } from '@/types/product';
 import { useEffect, useState } from 'react';
 import toast from "react-hot-toast";
@@ -121,12 +120,10 @@ export default function ExploreProducts({ products }: ExploreProductsProps) {
                 let reviews = [];                if (data.reviews && data.reviews.length > 0 && data.reviews[0].reviews) {
                   reviews = data.reviews[0].reviews;
                 }
-                console.log(`Extracted reviews for product ${product.id_produk}:`, reviews);
-
-                let real_rating = 0;
-                let real_review_count = reviews.length;
+                console.log(`Extracted reviews for product ${product.id_produk}:`, reviews);                let real_rating = 0;
+                const real_review_count = reviews.length;
                 if (reviews.length > 0) {
-                  const totalRating = reviews.reduce((sum: number, review: any) => sum + (review.rate || 0), 0);
+                  const totalRating = reviews.reduce((sum: number, review: { rate?: number }) => sum + (review.rate || 0), 0);
                   real_rating = totalRating / reviews.length;
                   console.log(`Product ${product.id_produk}: Calculated rating=${real_rating}, count=${real_review_count}`);
                 }
@@ -161,10 +158,8 @@ export default function ExploreProducts({ products }: ExploreProductsProps) {
       } finally {
         setLoading(false);
       }
-    };
-
-    fetchReviews();
-  }, [products]);
+    };    fetchReviews();
+  }, [products, validProducts]);
 
   return (
     <div className="w-full bg-white">
