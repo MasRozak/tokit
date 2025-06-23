@@ -125,7 +125,7 @@ const CheckoutDetails: React.FC<Props> = ({ items, onPlaceOrder, isLoading = fal
             <input
               type="radio"
               name="payment"
-              value="transfer_bank"              checked={paymentMethod === 'transfer bank'}
+              value="transfer bank" checked={paymentMethod === 'transfer bank'}
               onChange={(e) => setPaymentMethod(e.target.value)}
               className="w-4 h-4 text-blue-500 border-gray-300 focus:ring-blue-500"
             />
