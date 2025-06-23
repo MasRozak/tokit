@@ -12,7 +12,7 @@ import { MdPhoneAndroid } from 'react-icons/md';
 const categories = [
   { icon: <MdPhoneAndroid size={32} />, label: "Phone" },
   { icon: <Laptop size={32} />, label: "Computer" },
-  { icon: <Watch size={32} />, label: "Smart Watch" },
+  { icon: <Watch size={32} />, label: "Watch" },
   { icon: <Camera size={32} />, label: "Camera" },
   { icon: <Headphones size={32} />, label: "Audio" },
   { icon: <Gamepad2 size={32} />, label: "Gaming" },
@@ -65,7 +65,7 @@ const CategorySection: React.FC = () => {
                 {category.icon}
               </div>
               <span className="text-sm font-medium text-center">
-                {category.label}
+                {category.label === "Watch" ? "Smart Watch" : category.label}
               </span>
             </div>
           </div>
