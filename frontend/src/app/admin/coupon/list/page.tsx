@@ -29,7 +29,7 @@ export default function AdminCouponListPage() {
           return
         }
 
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'}/api/admin/coupon`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'}/api/coupon`, {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -65,7 +65,7 @@ export default function AdminCouponListPage() {
     if (confirm('Are you sure you want to delete this coupon?')) {
       try {
         const token = sessionStorage.getItem('jwtToken')
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'}/api/admin/coupon/${id}`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'}/api/coupon/${id}`, {
           method: 'DELETE',
           headers: {
             'Authorization': `Bearer ${token}`,

@@ -15,18 +15,10 @@ interface ProductWithReviews extends Product {
   real_review_count?: number;
 }
 
-export default function ExploreProducts({ products }: ExploreProductsProps) {
-  const [productsWithReviews, setProductsWithReviews] = useState<ProductWithReviews[]>([]);
+export default function ExploreProducts({ products }: ExploreProductsProps) {  const [productsWithReviews, setProductsWithReviews] = useState<ProductWithReviews[]>([]);
   const [loading, setLoading] = useState(true);
   const [addingToCart, setAddingToCart] = useState<string | null>(null);
   const [addingToWishlist, setAddingToWishlist] = useState<string | null>(null);
-
-  const validProducts = products?.filter(product =>
-    product &&
-    product.id_produk &&
-    product.nama_produk &&
-    typeof product.harga === 'number'
-  ) || [];
 
   const handleAddToCart = async (productId: string, e: React.MouseEvent) => {
     e.preventDefault();
@@ -100,9 +92,16 @@ export default function ExploreProducts({ products }: ExploreProductsProps) {
       setAddingToWishlist(null);
     }
   };
-
   useEffect(() => {
     const fetchReviews = async () => {
+      // Filter products inside useEffect to avoid dependency issues
+      const validProducts = products?.filter(product =>
+        product &&
+        product.id_produk &&
+        product.nama_produk &&
+        typeof product.harga === 'number'
+      ) || [];
+
       if (validProducts.length === 0) {
         setLoading(false);
         return;
@@ -157,9 +156,9 @@ export default function ExploreProducts({ products }: ExploreProductsProps) {
         setProductsWithReviews(validProducts.map(p => ({ ...p, real_rating: 0, real_review_count: 0 })));
       } finally {
         setLoading(false);
-      }
-    };    fetchReviews();
-  }, [products, validProducts]);
+      }    };    
+    fetchReviews();
+  }, [products]); // Only depend on products, not validProducts
 
   return (
     <div className="w-full bg-white">

@@ -74,7 +74,7 @@ export default function CouponForm({ coupon, mode }: CouponFormProps) {
       const token = sessionStorage.getItem('jwtToken')
 
       if (mode === 'create') {
-        response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'}/api/admin/coupon`, {
+        response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'}/api/coupon`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -85,7 +85,7 @@ export default function CouponForm({ coupon, mode }: CouponFormProps) {
       } else if (mode === 'edit' && coupon) {
         couponData.id_kupon = coupon.id_kupon
 
-        response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'}/api/admin/coupon/${couponData.id_kupon}`, {
+        response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'}/api/coupon/${couponData.id_kupon}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',

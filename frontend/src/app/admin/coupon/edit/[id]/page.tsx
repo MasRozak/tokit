@@ -29,7 +29,7 @@ export default function EditCouponPage() {
           router.push('/login')
           return        }
 
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'}/api/admin/coupon/${couponId}`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'}/api/coupon/${couponId}`, {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}`,
