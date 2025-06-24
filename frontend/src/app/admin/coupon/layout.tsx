@@ -2,8 +2,8 @@ import "../../globals.css";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "tokET - Admin Coupon",
-  description: "TOKO ETerion - Admin Coupon Management",
+  title: "Tokit - Admin Coupon",
+  description: "Tokit - Admin Coupon Management",
 };
 
 export default function AdminCouponLayout({

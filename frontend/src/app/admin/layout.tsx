@@ -2,8 +2,8 @@ import "./../globals.css";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "tokET",
-  description: "TOKO ETerion",
+  title: "tokIT Admin",
+  description: "TOKO IT Admin Dashboard",
 };
 
 export default function AdminProductsLayout({
